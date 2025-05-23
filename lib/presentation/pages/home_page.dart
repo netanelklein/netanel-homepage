@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import '../../core/providers/theme_provider.dart';
 import '../widgets/navigation/app_navigation.dart';
+import '../widgets/navigation/floating_nav_button.dart';
 import '../widgets/sections/hero_section.dart';
 import '../widgets/sections/about_section.dart';
 import '../widgets/sections/projects_section.dart';
@@ -109,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                   SliverToBoxAdapter(
                     child: ScrollControllerWidget(
                       key: _heroKey,
-                      child: HeroSection(),
+                      child: const HeroSection(),
                     ),
                   ),
                   
@@ -117,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                   SliverToBoxAdapter(
                     child: ScrollControllerWidget(
                       key: _aboutKey,
-                      child: AboutSection(),
+                      child: const AboutSection(),
                     ),
                   ),
                   
@@ -125,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                   SliverToBoxAdapter(
                     child: ScrollControllerWidget(
                       key: _projectsKey,
-                      child: ProjectsSection(),
+                      child: const ProjectsSection(),
                     ),
                   ),
                   
@@ -133,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                   SliverToBoxAdapter(
                     child: ScrollControllerWidget(
                       key: _skillsKey,
-                      child: SkillsSection(),
+                      child: const SkillsSection(),
                     ),
                   ),
                   
@@ -141,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                   SliverToBoxAdapter(
                     child: ScrollControllerWidget(
                       key: _cvKey,
-                      child: CvSection(),
+                      child: const CvSection(),
                     ),
                   ),
                   
@@ -149,10 +150,15 @@ class _HomePageState extends State<HomePage> {
                   SliverToBoxAdapter(
                     child: ScrollControllerWidget(
                       key: _contactKey,
-                      child: ContactSection(),
+                      child: const ContactSection(),
                     ),
                   ),
                 ],
+              ),
+              
+              // Floating Navigation Button
+              FloatingNavButton(
+                onSectionTap: _scrollToSection,
               ),
             ],
           ),
