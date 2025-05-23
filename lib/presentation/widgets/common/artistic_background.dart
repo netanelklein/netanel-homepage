@@ -31,7 +31,7 @@ class _ArtisticBackgroundState extends State<ArtisticBackground>
     _terminalController = AnimationController(
       duration: const Duration(seconds: 8),
       vsync: this,
-    )..repeat();
+    )..forward();
   }
 
   @override
@@ -141,26 +141,26 @@ class TerminalDataPainter extends CustomPainter {
   });
 
   final List<String> terminalLines = [
-    '$ netanel@system:~\$ whoami',
+    '\$ netanel@system:~\\\$ whoami',
     'Electrical Engineering Student',
-    '$ cat /proc/skills',
+    '\$ cat /proc/skills',
     'DevOps: Docker, CI/CD, Cloud Infrastructure',
     'Development: Flutter, React Native, PHP',
     'Engineering: IoT, PCB Design, Circuit Analysis',
     'Hobbies: Guitar, Brewing, Mixology',
-    '$ ps aux | grep passion',
+    '\$ ps aux | grep passion',
     'brewing_automation  PID:1337  CPU:100%  ⚡',
     'guitar_practice     PID:2024  CPU:85%   🎸',
     'code_crafting       PID:2025  CPU:95%   💻',
     'cocktail_mixing     PID:1969  CPU:75%   🍸',
-    '$ uptime',
+    '\$ uptime',
     'Learning since: boot time',
     'Projects completed: 15+',
-    '$ tail -f /var/log/interests.log',
+    '\$ tail -f /var/log/interests.log',
     '[INFO] IoT brewing system: pH monitoring active',
     '[INFO] Guitar pickup winder: design phase',
     '[INFO] Smart home sensors: deployment ready',
-    '$ echo "Crafting solutions from circuits to cocktails" ✨',
+    '\$ echo "Crafting solutions from circuits to cocktails" ✨',
     'Crafting solutions from circuits to cocktails ✨',
   ];
 
@@ -173,11 +173,11 @@ class TerminalDataPainter extends CustomPainter {
 
     final lineHeight = 18.0;
     final startY = size.height * 0.15;
-    final visibleLines = ((animationValue * terminalLines.length * 1.5) % terminalLines.length).floor();
+    final visibleLines = (animationValue * terminalLines.length).floor();
 
     for (int i = 0; i < math.min(visibleLines + 1, terminalLines.length); i++) {
       final opacity = i == visibleLines 
-          ? (animationValue * terminalLines.length * 1.5) % 1.0
+          ? (animationValue * terminalLines.length) % 1.0
           : math.max(0.1, 0.7 - (i * 0.03)); // Fade older lines gradually
       
       if (opacity <= 0) continue;
