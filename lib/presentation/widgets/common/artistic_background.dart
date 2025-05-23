@@ -46,7 +46,7 @@ class _ArtisticBackgroundState extends State<ArtisticBackground>
               return CustomPaint(
                 painter: ArtisticPatternPainter(
                   animationValue: _animationController.value,
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  color: Theme.of(context).colorScheme.primary.withValues(),
                   isDark: Theme.of(context).brightness == Brightness.dark,
                 ),
               );
@@ -63,7 +63,7 @@ class _ArtisticBackgroundState extends State<ArtisticBackground>
                 return CustomPaint(
                   painter: FloatingParticlesPainter(
                     animationValue: _particleController.value,
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                    color: Theme.of(context).colorScheme.primary.withValues(),
                   ),
                 );
               },
@@ -103,7 +103,7 @@ class ArtisticPatternPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     final fillPaint = Paint()
-      ..color = color.withOpacity(0.05)
+      ..color = color.withValues()
       ..style = PaintingStyle.fill;
 
     // Circuit board traces with animation
@@ -172,7 +172,7 @@ class ArtisticPatternPainter extends CustomPainter {
         }
       }
       
-      canvas.drawPath(path, paint..color = color.withOpacity(0.4));
+      canvas.drawPath(path, paint..color = color.withValues());
     }
   }
 
@@ -206,7 +206,7 @@ class ArtisticPatternPainter extends CustomPainter {
 
   void _drawCodeGrid(Canvas canvas, Size size, Paint paint) {
     // Subtle grid pattern reminiscent of code structure
-    paint.color = color.withOpacity(0.15);
+    paint.color = color.withValues();
     
     final spacing = 80.0;
     final animatedOffset = (animationValue * spacing) % spacing;
@@ -291,7 +291,7 @@ class FloatingParticlesPainter extends CustomPainter {
       ),
       size: 2 + (index % 3),
       rotation: time * 2 * math.pi + index,
-      color: color.withOpacity(0.3 + 0.4 * math.sin(time * math.pi + index)),
+      color: color.withValues(),
       type: index % 2 == 0 ? ParticleType.circle : ParticleType.square,
     );
   }
@@ -304,13 +304,13 @@ class FloatingParticlesPainter extends CustomPainter {
       ),
       size: 6,
       rotation: 0,
-      color: color.withOpacity(0.4),
+      color: color.withValues(),
       type: ParticleType.musicNote,
     );
   }
 
   void _drawMusicNote(Canvas canvas, double size, Paint paint) {
-    final path = Path();
+//    final path = Path();
     
     // Simple music note shape
     canvas.drawCircle(Offset(0, size), size * 0.4, paint);

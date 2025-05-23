@@ -20,7 +20,7 @@ class AppNavigation extends StatefulWidget {
 }
 
 class _AppNavigationState extends State<AppNavigation> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+//  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final List<NavigationItem> _navItems = [
     NavigationItem('Home', 'hero', Icons.home),
@@ -90,7 +90,7 @@ class _AppNavigationState extends State<AppNavigation> {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
                 
                 const SizedBox(width: 20),
                 

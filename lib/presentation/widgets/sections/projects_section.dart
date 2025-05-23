@@ -52,7 +52,7 @@ class ProjectsSection extends StatelessWidget {
                     'Smart Home Monitor',
                     'Custom PCB environmental monitoring for multiple rooms',
                     ['ESP32', 'PCB Design', 'IoT'],
-                    FontAwesomeIcons.home,
+                    FontAwesomeIcons.house,
                   ),
                 ],
               );
