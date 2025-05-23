@@ -46,7 +46,7 @@ class _ArtisticBackgroundState extends State<ArtisticBackground>
               return CustomPaint(
                 painter: ArtisticPatternPainter(
                   animationValue: _animationController.value,
-                  color: Theme.of(context).colorScheme.primary.withValues(),
+                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                   isDark: Theme.of(context).brightness == Brightness.dark,
                 ),
               );
@@ -63,7 +63,7 @@ class _ArtisticBackgroundState extends State<ArtisticBackground>
                 return CustomPaint(
                   painter: FloatingParticlesPainter(
                     animationValue: _particleController.value,
-                    color: Theme.of(context).colorScheme.primary.withValues(),
+                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
                   ),
                 );
               },
@@ -103,7 +103,7 @@ class ArtisticPatternPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     final fillPaint = Paint()
-      ..color = color.withValues()
+      ..color = color.withValues(alpha: 0.05)
       ..style = PaintingStyle.fill;
 
     // Circuit board traces with animation
@@ -172,7 +172,7 @@ class ArtisticPatternPainter extends CustomPainter {
         }
       }
       
-      canvas.drawPath(path, paint..color = color.withValues());
+      canvas.drawPath(path, paint..color = color.withValues(alpha: 0.4));
     }
   }
 
@@ -291,7 +291,7 @@ class FloatingParticlesPainter extends CustomPainter {
       ),
       size: 2 + (index % 3),
       rotation: time * 2 * math.pi + index,
-      color: color.withValues(),
+      color: color.withValues(alpha: 0.3 + 0.4 * math.sin(time * math.pi + index)),
       type: index % 2 == 0 ? ParticleType.circle : ParticleType.square,
     );
   }
@@ -304,7 +304,7 @@ class FloatingParticlesPainter extends CustomPainter {
       ),
       size: 6,
       rotation: 0,
-      color: color.withValues(),
+      color: color.withValues(alpha: 0.4),
       type: ParticleType.musicNote,
     );
   }
