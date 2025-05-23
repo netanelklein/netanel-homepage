@@ -66,7 +66,7 @@ class SkillsSection extends StatelessWidget {
               ...skills.map((skill) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 child: Text('• $skill'),
-              )).toList(),
+              )),
             ],
           ),
         ),
