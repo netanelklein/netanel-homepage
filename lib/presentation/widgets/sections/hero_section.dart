@@ -41,12 +41,12 @@ class HeroSection extends StatelessWidget {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Theme.of(context).colorScheme.primary.withValues(),
+                            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
                             blurRadius: 20,
                             spreadRadius: 5,
                           ),
                           BoxShadow(
-                            color: Theme.of(context).colorScheme.secondary.withValues(),
+                            color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
                             blurRadius: 40,
                             spreadRadius: 10,
                           ),
@@ -96,9 +96,9 @@ class HeroSection extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.primary.withValues(),
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
                         ),
-                        color: Theme.of(context).colorScheme.primary.withValues(),
+                        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       ),
                       child: Text(
                         'Electrical Engineering Student | DevOps Engineer | Full-Stack Developer',
@@ -124,12 +124,12 @@ class HeroSection extends StatelessWidget {
                         borderRadius: BorderRadius.circular(25),
                         gradient: LinearGradient(
                           colors: [
-                            Theme.of(context).colorScheme.primary.withValues(),
-                            Theme.of(context).colorScheme.secondary.withValues(),
+                            Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
+                            Theme.of(context).colorScheme.secondary.withValues(alpha: 0.15),
                           ],
                         ),
                         border: Border.all(
-                          color: Theme.of(context).colorScheme.primary.withValues(),
+                          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
                           width: 1.5,
                         ),
                       ),
@@ -250,7 +250,7 @@ class HeroSection extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: isPrimary 
-                ? Theme.of(context).colorScheme.primary.withValues()
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
                 : Colors.transparent,
             blurRadius: 15,
             spreadRadius: 2,
@@ -279,7 +279,7 @@ class HeroSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 side: BorderSide(
-                  color: Theme.of(context).colorScheme.primary.withValues(),
+                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
                   width: 1.5,
                 ),
               ),
@@ -298,12 +298,12 @@ class HeroSection extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).colorScheme.primary.withValues(),
-            Theme.of(context).colorScheme.secondary.withValues(),
+            Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
           ],
         ),
         border: Border.all(
-          color: Theme.of(context).colorScheme.primary.withValues(),
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
         ),
       ),
       child: IconButton(
