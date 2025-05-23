@@ -92,7 +92,7 @@ jobs:
       run: flutter pub get
       
     - name: Build Flutter web (PR Preview)
-      run: flutter build web --release --web-renderer html
+      run: flutter build web
       
     - name: Comment PR with build status
       uses: actions/github-script@v7
