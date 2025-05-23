@@ -59,7 +59,7 @@ jobs:
       
     - name: Build Flutter web
       run: |
-        flutter build web --release --web-renderer html --base-href "/netanel-homepage/"
+        flutter build web --base-href "/netanel-homepage/"
         
     - name: Setup Pages
       uses: actions/configure-pages@v4
@@ -78,6 +78,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     
+  permission:
+    content: read
+    pull-requests: write
+    issues: write
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
