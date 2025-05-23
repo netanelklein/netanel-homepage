@@ -112,7 +112,7 @@ class ProjectsSection extends StatelessWidget {
                     tech,
                     style: const TextStyle(fontSize: 12),
                   ),
-                  backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  backgroundColor: Theme.of(context).colorScheme.primary.withValues(),
                 )).toList(),
               ),
             ],
