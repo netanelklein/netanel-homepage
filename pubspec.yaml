@@ -1,0 +1,51 @@
+name: netanel_homepage
+description: Personal homepage for Netanel Klein - Electrical Engineering Student, DevOps Engineer & Full-Stack Developer
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI & Theming
+  material_color_utilities: ^0.11.1
+  
+  # Navigation & Scrolling
+  scrollable_positioned_list: ^0.3.8
+  
+  # Animations
+  animate_do: ^4.2.0
+  
+  # Responsive Design
+  flutter_screenutil: ^5.9.0
+  responsive_builder: ^0.7.0
+  
+  # Icons
+  font_awesome_flutter: ^10.6.0
+  
+  # HTTP requests (for future backend integration)
+  http: ^1.1.0
+  dio: ^5.3.2
+  
+  # Forms & Validation
+  flutter_form_builder: ^10.0.1
+  form_builder_validators: ^11.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/cv/
