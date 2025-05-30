@@ -54,18 +54,23 @@ class _HomePageState extends State<HomePage> {
 
   double get _navbarOpacity {
     // Calculate opacity based on scroll position
-    // More solid at top, gradual transition when scrolling
-    const maxOffset = 300.0; // Longer transition distance
-    const maxOpacity = 0.98; // Very solid at top
-    const minOpacity = 0.75; // Still visible when scrolling
+    // Completely transparent at top, becomes visible when scrolling
+    const startOffset = 50.0; // Start becoming visible after 50px scroll
+    const maxOffset = 200.0; // Fully visible by 200px scroll
+    const maxOpacity = 0.85; // Maximum opacity when scrolling
 
-    if (_scrollOffset <= 0) return maxOpacity;
-    if (_scrollOffset >= maxOffset) return minOpacity;
+    if (_scrollOffset <= startOffset) {
+      return 0.0; // Completely transparent at top
+    }
+    if (_scrollOffset >= maxOffset) return maxOpacity;
 
-    final ratio = _scrollOffset / maxOffset;
-    // Use smoother easing for gradual transition
-    final easedRatio = ratio * ratio; // Ease-in curve
-    return maxOpacity - (easedRatio * (maxOpacity - minOpacity));
+    final adjustedOffset = _scrollOffset - startOffset;
+    final adjustedMaxOffset = maxOffset - startOffset;
+    final ratio = adjustedOffset / adjustedMaxOffset;
+
+    // Use ease-out curve for smooth appearance
+    final easedRatio = 1 - (1 - ratio) * (1 - ratio);
+    return easedRatio * maxOpacity;
   }
 
   double get _navbarBlur {
