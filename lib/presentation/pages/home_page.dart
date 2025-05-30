@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    
+
     // Initialize portfolio data
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<PortfolioRepository>().loadPortfolioData();
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     // Get the screen height and current scroll position
     final screenHeight = MediaQuery.of(context).size.height;
     final currentOffset = _scrollController.offset;
-    
+
     // Define the sections with their keys and names
     final sections = [
       {'key': _heroKey, 'name': 'hero'},
@@ -75,24 +75,27 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i < sections.length; i++) {
       final sectionKey = sections[i]['key'] as GlobalKey;
       final sectionName = sections[i]['name'] as String;
-      
+
       if (sectionKey.currentContext != null) {
-        final RenderBox renderBox = sectionKey.currentContext!.findRenderObject() as RenderBox;
-        final sectionOffset = renderBox.localToGlobal(Offset.zero).dy + currentOffset;
+        final RenderBox renderBox =
+            sectionKey.currentContext!.findRenderObject() as RenderBox;
+        final sectionOffset =
+            renderBox.localToGlobal(Offset.zero).dy + currentOffset;
         final sectionHeight = renderBox.size.height;
-        
+
         // Check if this section is currently in view
         // Consider a section active when it's in the top 30% of the screen for better detection
         final sectionTop = sectionOffset - currentOffset;
         final sectionBottom = sectionTop + sectionHeight;
-        final triggerPoint = screenHeight * 0.30; // Top 30% of screen for better detection
-        
+        final triggerPoint =
+            screenHeight * 0.30; // Top 30% of screen for better detection
+
         if (sectionTop <= triggerPoint && sectionBottom > triggerPoint) {
           return sectionName;
         }
       }
     }
-    
+
     // Default to hero if nothing else matches
     return 'hero';
   }

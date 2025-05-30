@@ -38,7 +38,7 @@ class ApiService {
     if (kDebugMode) {
       return MockDataService.getPortfolioData();
     }
-    
+
     try {
       final response = await _client
           .get(
@@ -213,10 +213,11 @@ class ApiService {
   Future<bool> submitContactMessage(ContactMessage message) async {
     // In debug mode, simulate API call with mock success
     if (kDebugMode) {
-      await Future.delayed(const Duration(seconds: 2)); // Simulate network delay
+      await Future.delayed(
+          const Duration(seconds: 2)); // Simulate network delay
       return true; // Mock successful submission
     }
-    
+
     try {
       final response = await _client
           .post(
