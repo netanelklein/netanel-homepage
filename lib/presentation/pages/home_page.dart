@@ -238,7 +238,9 @@ class _HomePageState extends State<HomePage> {
                       SliverToBoxAdapter(
                         child: ScrollControllerWidget(
                           key: _heroKey,
-                          child: const HeroSection(),
+                          child: HeroSection(
+                            onSectionTap: _scrollToSection,
+                          ),
                         ),
                       ),
 

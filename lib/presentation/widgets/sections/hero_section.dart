@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../common/artistic_background.dart';
 
 class HeroSection extends StatelessWidget {
-  const HeroSection({super.key});
+  final Function(String)? onSectionTap;
+  
+  const HeroSection({
+    super.key,
+    this.onSectionTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +189,7 @@ class HeroSection extends StatelessWidget {
                           Icons.work,
                           true,
                           () {
-                            // TODO: Scroll to projects
+                            onSectionTap?.call('projects');
                           },
                         ),
                         _buildArtisticButton(
@@ -192,7 +198,7 @@ class HeroSection extends StatelessWidget {
                           Icons.email,
                           false,
                           () {
-                            // TODO: Scroll to contact
+                            onSectionTap?.call('contact');
                           },
                         ),
                       ],
@@ -213,7 +219,7 @@ class HeroSection extends StatelessWidget {
                           FontAwesomeIcons.github,
                           'GitHub',
                           () {
-                            // TODO: Open GitHub - will link to netanelklein
+                            _launchURL('https://github.com/netanelklein');
                           },
                         ),
                         const SizedBox(width: 30),
@@ -222,7 +228,7 @@ class HeroSection extends StatelessWidget {
                           FontAwesomeIcons.linkedin,
                           'LinkedIn',
                           () {
-                            // TODO: Open LinkedIn
+                            _launchURL('https://linkedin.com/in/netanelklein');
                           },
                         ),
                       ],
@@ -314,5 +320,22 @@ class HeroSection extends StatelessWidget {
         padding: const EdgeInsets.all(15),
       ),
     );
+  }
+
+  // URL launcher helper method
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        debugPrint('Could not launch $url');
+      }
+    } catch (e) {
+      debugPrint('Error launching URL: $e');
+    }
   }
 }
