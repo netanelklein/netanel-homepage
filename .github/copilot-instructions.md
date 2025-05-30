@@ -5,10 +5,9 @@ Always read the `.ai-context.md` file first to understand the current project st
 **Meaningful Commits**: When making changes, always commit work in logical groups with meaningful commit messages. Configure git as GitHub Copilot before committing:
 ```bash
 git config user.name "GitHub Copilot"
-git config user.email "copilot@github.com"
 ```
 Use semantic commit messages (feat:, fix:, docs:, refactor:, etc.) and always sign commits with:
-`Signed-off-by: GitHub Copilot <copilot@github.com>`
+`Signed-off-by: GitHub Copilot`
 
 Group related changes into separate commits for better git history and easier code review. Examples:
 - Data models and services in one commit
