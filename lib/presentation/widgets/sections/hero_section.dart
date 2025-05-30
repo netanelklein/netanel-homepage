@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 import '../common/artistic_background.dart';
+import '../../../data/repositories/portfolio_repository.dart';
 
 class HeroSection extends StatelessWidget {
-  const HeroSection({super.key});
+  final Function(String)? onSectionTap;
+  
+  const HeroSection({
+    super.key,
+    this.onSectionTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -73,14 +81,19 @@ class HeroSection extends StatelessWidget {
                           Theme.of(context).colorScheme.secondary,
                         ],
                       ).createShader(bounds),
-                      child: Text(
-                        'Netanel Klein',
-                        style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: sizingInformation.isDesktop ? 48 : 36,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
+                      child: Consumer<PortfolioRepository>(
+                        builder: (context, repository, child) {
+                          final fullName = repository.portfolioData?.personalInfo.fullName ?? 'Netanel Klein';
+                          return Text(
+                            fullName,
+                            style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: sizingInformation.isDesktop ? 48 : 36,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -100,14 +113,19 @@ class HeroSection extends StatelessWidget {
                         ),
                         color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                       ),
-                      child: Text(
-                        'Electrical Engineering Student | DevOps Engineer | Full-Stack Developer',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: sizingInformation.isDesktop ? 20 : 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        textAlign: TextAlign.center,
+                      child: Consumer<PortfolioRepository>(
+                        builder: (context, repository, child) {
+                          final title = repository.portfolioData?.personalInfo.title ?? 'Loading...';
+                          return Text(
+                            title,
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: sizingInformation.isDesktop ? 20 : 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -133,35 +151,40 @@ class HeroSection extends StatelessWidget {
                           width: 1.5,
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Circuit icon (representing engineering/tech)
-                          Icon(
-                            Icons.memory,
-                            size: 20,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          const SizedBox(width: 8),
-                          Flexible(
-                            child: Text(
-                              'Crafting solutions from circuits to cocktails',
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontStyle: FontStyle.italic,
-                                fontSize: sizingInformation.isDesktop ? 22 : 18,
-                                fontWeight: FontWeight.w500,
+                      child: Consumer<PortfolioRepository>(
+                        builder: (context, repository, child) {
+                          final tagline = repository.portfolioData?.personalInfo.tagline ?? 'Loading...';
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Circuit icon (representing engineering/tech)
+                              Icon(
+                                Icons.memory,
+                                size: 20,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          // Cocktail icon (representing mixology hobby)
-                          Icon(
-                            Icons.local_bar,
-                            size: 20,
-                            color: Colors.amber.shade600,
-                          ),
-                        ],
+                              const SizedBox(width: 8),
+                              Flexible(
+                                child: Text(
+                                  tagline,
+                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: sizingInformation.isDesktop ? 22 : 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              // Cocktail icon (representing mixology hobby)
+                              Icon(
+                                Icons.local_bar,
+                                size: 20,
+                                color: Colors.amber.shade600,
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -183,7 +206,7 @@ class HeroSection extends StatelessWidget {
                           Icons.work,
                           true,
                           () {
-                            // TODO: Scroll to projects
+                            onSectionTap?.call('projects');
                           },
                         ),
                         _buildArtisticButton(
@@ -192,7 +215,7 @@ class HeroSection extends StatelessWidget {
                           Icons.email,
                           false,
                           () {
-                            // TODO: Scroll to contact
+                            onSectionTap?.call('contact');
                           },
                         ),
                       ],
@@ -205,27 +228,40 @@ class HeroSection extends StatelessWidget {
                   FadeInUp(
                     delay: const Duration(milliseconds: 1000),
                     duration: const Duration(milliseconds: 800),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildSocialIcon(
-                          context,
-                          FontAwesomeIcons.github,
-                          'GitHub',
-                          () {
-                            // TODO: Open GitHub - will link to netanelklein
-                          },
-                        ),
-                        const SizedBox(width: 30),
-                        _buildSocialIcon(
-                          context,
-                          FontAwesomeIcons.linkedin,
-                          'LinkedIn',
-                          () {
-                            // TODO: Open LinkedIn
-                          },
-                        ),
-                      ],
+                    child: Consumer<PortfolioRepository>(
+                      builder: (context, repository, child) {
+                        final personalInfo = repository.portfolioData?.personalInfo;
+                        final socialLinks = personalInfo?.contact.socialLinks ?? {};
+                        
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildSocialIcon(
+                              context,
+                              FontAwesomeIcons.github,
+                              'GitHub',
+                              () {
+                                final githubUrl = socialLinks['github'];
+                                if (githubUrl != null) {
+                                  _launchURL(githubUrl);
+                                }
+                              },
+                            ),
+                            const SizedBox(width: 30),
+                            _buildSocialIcon(
+                              context,
+                              FontAwesomeIcons.linkedin,
+                              'LinkedIn',
+                              () {
+                                final linkedinUrl = socialLinks['linkedin'];
+                                if (linkedinUrl != null) {
+                                  _launchURL(linkedinUrl);
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -314,5 +350,22 @@ class HeroSection extends StatelessWidget {
         padding: const EdgeInsets.all(15),
       ),
     );
+  }
+
+  // URL launcher helper method
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        debugPrint('Could not launch $url');
+      }
+    } catch (e) {
+      debugPrint('Error launching URL: $e');
+    }
   }
 }

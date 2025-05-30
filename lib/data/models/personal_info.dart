@@ -1,6 +1,7 @@
 class PersonalInfo {
   final String fullName;
   final String title;
+  final String tagline;
   final String summary;
   final ContactInfo contact;
   final List<String> languages;
@@ -9,6 +10,7 @@ class PersonalInfo {
   const PersonalInfo({
     required this.fullName,
     required this.title,
+    required this.tagline,
     required this.summary,
     required this.contact,
     required this.languages,
@@ -19,6 +21,7 @@ class PersonalInfo {
     return PersonalInfo(
       fullName: json['fullName'] as String,
       title: json['title'] as String,
+      tagline: json['tagline'] as String,
       summary: json['summary'] as String,
       contact: ContactInfo.fromJson(json['contact'] as Map<String, dynamic>),
       languages: List<String>.from(json['languages'] as List),
@@ -30,6 +33,7 @@ class PersonalInfo {
     return {
       'fullName': fullName,
       'title': title,
+      'tagline': tagline,
       'summary': summary,
       'contact': contact.toJson(),
       'languages': languages,

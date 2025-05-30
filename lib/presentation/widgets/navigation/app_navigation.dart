@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 import '../../../core/providers/theme_provider.dart';
+import '../../../data/repositories/portfolio_repository.dart';
 
 class AppNavigation extends StatefulWidget {
   final Function(String) onSectionTap;
   final ThemeProvider themeProvider;
   final bool isDesktop;
+  final String activeSection;
 
   const AppNavigation({
     super.key,
     required this.onSectionTap,
     required this.themeProvider,
     required this.isDesktop,
+    required this.activeSection,
   });
 
   @override
@@ -52,12 +57,17 @@ class _AppNavigationState extends State<AppNavigation> {
             // Logo/Name
             FadeInLeft(
               delay: const Duration(milliseconds: 200),
-              child: Text(
-                'Netanel Klein',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+              child: Consumer<PortfolioRepository>(
+                builder: (context, repository, child) {
+                  final fullName = repository.portfolioData?.personalInfo.fullName ?? 'Netanel Klein';
+                  return Text(
+                    fullName,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  );
+                },
               ),
             ),
             
@@ -67,6 +77,7 @@ class _AppNavigationState extends State<AppNavigation> {
                 ..._navItems.asMap().entries.map((entry) {
                   final index = entry.key;
                   final item = entry.value;
+                  final isActive = widget.activeSection == item.route;
                   
                   return FadeInDown(
                     delay: Duration(milliseconds: 300 + (index * 100)),
@@ -82,9 +93,12 @@ class _AppNavigationState extends State<AppNavigation> {
                         ),
                         child: Text(
                           item.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                            color: isActive 
+                                ? Theme.of(context).colorScheme.primary
+                                : null,
                           ),
                         ),
                       ),
@@ -197,15 +211,25 @@ class _AppNavigationState extends State<AppNavigation> {
                 itemCount: _navItems.length,
                 itemBuilder: (context, index) {
                   final item = _navItems[index];
+                  final isActive = widget.activeSection == item.route;
+                  
                   return FadeInUp(
                     delay: Duration(milliseconds: index * 100),
                     child: ListTile(
-                      leading: Icon(item.icon),
+                      leading: Icon(
+                        item.icon,
+                        color: isActive 
+                            ? Theme.of(context).colorScheme.primary
+                            : null,
+                      ),
                       title: Text(
                         item.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                          color: isActive 
+                              ? Theme.of(context).colorScheme.primary
+                              : null,
                         ),
                       ),
                       onTap: () {
@@ -221,29 +245,58 @@ class _AppNavigationState extends State<AppNavigation> {
             // Social links
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      // TODO: Open GitHub
-                    },
-                    icon: const FaIcon(FontAwesomeIcons.github),
-                  ),
-                  const SizedBox(width: 20),
-                  IconButton(
-                    onPressed: () {
-                      // TODO: Open LinkedIn
-                    },
-                    icon: const FaIcon(FontAwesomeIcons.linkedin),
-                  ),
-                ],
+              child: Consumer<PortfolioRepository>(
+                builder: (context, repository, child) {
+                  final socialLinks = repository.portfolioData?.personalInfo.contact.socialLinks ?? {};
+                  
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          final githubUrl = socialLinks['github'];
+                          if (githubUrl != null) {
+                            _launchURL(githubUrl);
+                          }
+                        },
+                        icon: const FaIcon(FontAwesomeIcons.github),
+                      ),
+                      const SizedBox(width: 20),
+                      IconButton(
+                        onPressed: () {
+                          final linkedinUrl = socialLinks['linkedin'];
+                          if (linkedinUrl != null) {
+                            _launchURL(linkedinUrl);
+                          }
+                        },
+                        icon: const FaIcon(FontAwesomeIcons.linkedin),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  // URL launcher helper method
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        debugPrint('Could not launch $url');
+      }
+    } catch (e) {
+      debugPrint('Error launching URL: $e');
+    }
   }
 }
 

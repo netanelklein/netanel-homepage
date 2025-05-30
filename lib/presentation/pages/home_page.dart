@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey _contactKey = GlobalKey();
   final GlobalKey _cvKey = GlobalKey();
   double _scrollOffset = 0.0;
+  String _activeSection = 'hero';
 
   @override
   void initState() {
@@ -51,7 +52,49 @@ class _HomePageState extends State<HomePage> {
   void _onScroll() {
     setState(() {
       _scrollOffset = _scrollController.offset;
+      _activeSection = _getCurrentSection();
     });
+  }
+
+  String _getCurrentSection() {
+    // Get the screen height and current scroll position
+    final screenHeight = MediaQuery.of(context).size.height;
+    final currentOffset = _scrollController.offset;
+    
+    // Define the sections with their keys and names
+    final sections = [
+      {'key': _heroKey, 'name': 'hero'},
+      {'key': _aboutKey, 'name': 'about'},
+      {'key': _projectsKey, 'name': 'projects'},
+      {'key': _skillsKey, 'name': 'skills'},
+      {'key': _cvKey, 'name': 'cv'},
+      {'key': _contactKey, 'name': 'contact'},
+    ];
+
+    // Find which section is currently in view
+    for (int i = 0; i < sections.length; i++) {
+      final sectionKey = sections[i]['key'] as GlobalKey;
+      final sectionName = sections[i]['name'] as String;
+      
+      if (sectionKey.currentContext != null) {
+        final RenderBox renderBox = sectionKey.currentContext!.findRenderObject() as RenderBox;
+        final sectionOffset = renderBox.localToGlobal(Offset.zero).dy + currentOffset;
+        final sectionHeight = renderBox.size.height;
+        
+        // Check if this section is currently in view
+        // Consider a section active when it's in the top 30% of the screen for better detection
+        final sectionTop = sectionOffset - currentOffset;
+        final sectionBottom = sectionTop + sectionHeight;
+        final triggerPoint = screenHeight * 0.30; // Top 30% of screen for better detection
+        
+        if (sectionTop <= triggerPoint && sectionBottom > triggerPoint) {
+          return sectionName;
+        }
+      }
+    }
+    
+    // Default to hero if nothing else matches
+    return 'hero';
   }
 
   double get _navbarOpacity {
@@ -225,6 +268,7 @@ class _HomePageState extends State<HomePage> {
                                 onSectionTap: _scrollToSection,
                                 themeProvider: themeProvider,
                                 isDesktop: sizingInformation.isDesktop,
+                                activeSection: _activeSection,
                               ),
                             ),
                           ),
@@ -238,7 +282,9 @@ class _HomePageState extends State<HomePage> {
                       SliverToBoxAdapter(
                         child: ScrollControllerWidget(
                           key: _heroKey,
-                          child: const HeroSection(),
+                          child: HeroSection(
+                            onSectionTap: _scrollToSection,
+                          ),
                         ),
                       ),
 

@@ -11,6 +11,7 @@ class MockDataService {
       personalInfo: PersonalInfo(
         fullName: 'Netanel Klein',
         title: 'Electrical Engineering Student & Fullstack Developer',
+        tagline: 'Crafting solutions from circuits to cocktails',
         summary:
             'Highly motivated and results-oriented fullstack developer and student for electrical engineering with experience in web development, mobile app development, hardware integration, and database management.',
         contact: ContactInfo(
