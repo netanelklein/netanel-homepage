@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/providers/theme_provider.dart';
+import 'data/repositories/portfolio_repository.dart';
 import 'presentation/pages/home_page.dart';
 
 void main() {
@@ -17,6 +19,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final ThemeProvider _themeProvider = ThemeProvider();
+  final PortfolioRepository _portfolioRepository = PortfolioRepository();
+
+  @override
+  void dispose() {
+    _portfolioRepository.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,18 +34,24 @@ class _MyAppState extends State<MyApp> {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return AnimatedBuilder(
-          animation: _themeProvider,
-          builder: (context, child) {
-            return MaterialApp(
-              title: 'Netanel Klein - Personal Homepage',
-              debugShowCheckedModeBanner: false,
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              themeMode: _themeProvider.themeMode,
-              home: HomePage(themeProvider: _themeProvider),
-            );
-          },
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ThemeProvider>.value(value: _themeProvider),
+            ChangeNotifierProvider<PortfolioRepository>.value(
+                value: _portfolioRepository),
+          ],
+          child: Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return MaterialApp(
+                title: 'Netanel Klein - Personal Homepage',
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                themeMode: themeProvider.themeMode,
+                home: const HomePage(),
+              );
+            },
+          ),
         );
       },
     );

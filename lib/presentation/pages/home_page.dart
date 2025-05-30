@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:provider/provider.dart';
 import 'dart:ui' as ui;
 import '../../core/providers/theme_provider.dart';
+import '../../data/repositories/portfolio_repository.dart';
 import '../widgets/navigation/app_navigation.dart';
 import '../widgets/sections/hero_section.dart';
 import '../widgets/sections/about_section.dart';
@@ -12,12 +14,7 @@ import '../widgets/sections/cv_section.dart';
 import '../widgets/common/scroll_controller_widget.dart';
 
 class HomePage extends StatefulWidget {
-  final ThemeProvider themeProvider;
-
-  const HomePage({
-    super.key,
-    required this.themeProvider,
-  });
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -37,6 +34,11 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    
+    // Initialize portfolio data
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<PortfolioRepository>().loadPortfolioData();
+    });
   }
 
   @override
@@ -128,153 +130,163 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(
-      builder: (context, sizingInformation) {
-        return Scaffold(
-          body: Stack(
-            children: [
-              // Background gradient
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: widget.themeProvider.isDarkMode
-                        ? [
-                            const Color(0xFF121212),
-                            const Color(0xFF1E1E1E),
-                            const Color(0xFF2D2D2D),
-                          ]
-                        : [
-                            Colors.white,
-                            Colors.blue.shade50,
-                            Colors.indigo.shade50,
-                          ],
-                  ),
-                ),
-              ),
-
-              // Main content
-              CustomScrollView(
-                controller: _scrollController,
-                slivers: [
-                  // Navigation - Fixed at top
-                  SliverAppBar(
-                    pinned: true,
-                    floating: true,
-                    snap: false,
-                    elevation: 0,
-                    backgroundColor: Colors.transparent,
-                    flexibleSpace: ClipRect(
-                      child: BackdropFilter(
-                        filter: ui.ImageFilter.blur(
-                          sigmaX: _navbarBlur,
-                          sigmaY: _navbarBlur,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Theme.of(context)
-                                    .scaffoldBackgroundColor
-                                    .withValues(alpha: _navbarOpacity),
-                                Theme.of(context)
-                                    .scaffoldBackgroundColor
-                                    .withValues(alpha: _navbarOpacity),
-                                Theme.of(context)
-                                    .scaffoldBackgroundColor
-                                    .withValues(alpha: _navbarOpacity * 0.95),
-                                Theme.of(context)
-                                    .scaffoldBackgroundColor
-                                    .withValues(alpha: _navbarOpacity * 0.85),
-                                Theme.of(context)
-                                    .scaffoldBackgroundColor
-                                    .withValues(alpha: _navbarOpacity * 0.6),
-                                Theme.of(context)
-                                    .scaffoldBackgroundColor
-                                    .withValues(alpha: _navbarOpacity * 0.3),
-                                Theme.of(context)
-                                    .scaffoldBackgroundColor
-                                    .withValues(alpha: _navbarOpacity * 0.1),
-                                Colors.transparent,
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return ResponsiveBuilder(
+          builder: (context, sizingInformation) {
+            return Scaffold(
+              body: Stack(
+                children: [
+                  // Background gradient
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: themeProvider.isDarkMode
+                            ? [
+                                const Color(0xFF121212),
+                                const Color(0xFF1E1E1E),
+                                const Color(0xFF2D2D2D),
+                              ]
+                            : [
+                                Colors.white,
+                                Colors.blue.shade50,
+                                Colors.indigo.shade50,
                               ],
-                              stops: const [
-                                0.0,
-                                0.6,
-                                0.7,
-                                0.8,
-                                0.87,
-                                0.93,
-                                0.97,
-                                1.0
-                              ],
-                            ),
-                          ),
-                          child: AppNavigation(
-                            onSectionTap: _scrollToSection,
-                            themeProvider: widget.themeProvider,
-                            isDesktop: sizingInformation.isDesktop,
-                          ),
-                        ),
                       ),
                     ),
-                    expandedHeight: sizingInformation.isDesktop ? 120 : 110,
-                    collapsedHeight: sizingInformation.isDesktop ? 120 : 110,
                   ),
 
-                  // Hero Section
-                  SliverToBoxAdapter(
-                    child: ScrollControllerWidget(
-                      key: _heroKey,
-                      child: const HeroSection(),
-                    ),
-                  ),
+                  // Main content
+                  CustomScrollView(
+                    controller: _scrollController,
+                    slivers: [
+                      // Navigation - Fixed at top
+                      SliverAppBar(
+                        pinned: true,
+                        floating: true,
+                        snap: false,
+                        elevation: 0,
+                        backgroundColor: Colors.transparent,
+                        flexibleSpace: ClipRect(
+                          child: BackdropFilter(
+                            filter: ui.ImageFilter.blur(
+                              sigmaX: _navbarBlur,
+                              sigmaY: _navbarBlur,
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Theme.of(context)
+                                        .scaffoldBackgroundColor
+                                        .withValues(alpha: _navbarOpacity),
+                                    Theme.of(context)
+                                        .scaffoldBackgroundColor
+                                        .withValues(alpha: _navbarOpacity),
+                                    Theme.of(context)
+                                        .scaffoldBackgroundColor
+                                        .withValues(
+                                            alpha: _navbarOpacity * 0.95),
+                                    Theme.of(context)
+                                        .scaffoldBackgroundColor
+                                        .withValues(
+                                            alpha: _navbarOpacity * 0.85),
+                                    Theme.of(context)
+                                        .scaffoldBackgroundColor
+                                        .withValues(
+                                            alpha: _navbarOpacity * 0.6),
+                                    Theme.of(context)
+                                        .scaffoldBackgroundColor
+                                        .withValues(
+                                            alpha: _navbarOpacity * 0.3),
+                                    Theme.of(context)
+                                        .scaffoldBackgroundColor
+                                        .withValues(
+                                            alpha: _navbarOpacity * 0.1),
+                                    Colors.transparent,
+                                  ],
+                                  stops: const [
+                                    0.0,
+                                    0.6,
+                                    0.7,
+                                    0.8,
+                                    0.87,
+                                    0.93,
+                                    0.97,
+                                    1.0
+                                  ],
+                                ),
+                              ),
+                              child: AppNavigation(
+                                onSectionTap: _scrollToSection,
+                                themeProvider: themeProvider,
+                                isDesktop: sizingInformation.isDesktop,
+                              ),
+                            ),
+                          ),
+                        ),
+                        expandedHeight: sizingInformation.isDesktop ? 120 : 110,
+                        collapsedHeight:
+                            sizingInformation.isDesktop ? 120 : 110,
+                      ),
 
-                  // About Section
-                  SliverToBoxAdapter(
-                    child: ScrollControllerWidget(
-                      key: _aboutKey,
-                      child: const AboutSection(),
-                    ),
-                  ),
+                      // Hero Section
+                      SliverToBoxAdapter(
+                        child: ScrollControllerWidget(
+                          key: _heroKey,
+                          child: const HeroSection(),
+                        ),
+                      ),
 
-                  // Projects Section
-                  SliverToBoxAdapter(
-                    child: ScrollControllerWidget(
-                      key: _projectsKey,
-                      child: const ProjectsSection(),
-                    ),
-                  ),
+                      // About Section
+                      SliverToBoxAdapter(
+                        child: ScrollControllerWidget(
+                          key: _aboutKey,
+                          child: const AboutSection(),
+                        ),
+                      ),
 
-                  // Skills Section
-                  SliverToBoxAdapter(
-                    child: ScrollControllerWidget(
-                      key: _skillsKey,
-                      child: const SkillsSection(),
-                    ),
-                  ),
+                      // Projects Section
+                      SliverToBoxAdapter(
+                        child: ScrollControllerWidget(
+                          key: _projectsKey,
+                          child: const ProjectsSection(),
+                        ),
+                      ),
 
-                  // CV Section
-                  SliverToBoxAdapter(
-                    child: ScrollControllerWidget(
-                      key: _cvKey,
-                      child: const CvSection(),
-                    ),
-                  ),
+                      // Skills Section
+                      SliverToBoxAdapter(
+                        child: ScrollControllerWidget(
+                          key: _skillsKey,
+                          child: const SkillsSection(),
+                        ),
+                      ),
 
-                  // Contact Section
-                  SliverToBoxAdapter(
-                    child: ScrollControllerWidget(
-                      key: _contactKey,
-                      child: const ContactSection(),
-                    ),
+                      // CV Section
+                      SliverToBoxAdapter(
+                        child: ScrollControllerWidget(
+                          key: _cvKey,
+                          child: const CvSection(),
+                        ),
+                      ),
+
+                      // Contact Section
+                      SliverToBoxAdapter(
+                        child: ScrollControllerWidget(
+                          key: _contactKey,
+                          child: const ContactSection(),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

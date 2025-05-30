@@ -2,7 +2,19 @@ Always read the `.ai-context.md` file first to understand the current project st
 
 **Git Workflow**: Before working on any new feature, always create a new branch from main (or dev when available) using descriptive names like `feature/api-service-layer` or `fix/navbar-transparency`. Use the run_in_terminal tool to execute git commands like `git checkout -b feature/feature-name`.
 
-After every significant change, update the `.ai-context.md` file by moving items from TODO to completed features, updating feature descriptions, and adding implementation details.
+**Meaningful Commits**: When making changes, always commit work in logical groups with meaningful commit messages. Configure git as GitHub Copilot before committing:
+```bash
+git config user.name "GitHub Copilot"
+git config user.email "copilot@github.com"
+```
+Use semantic commit messages (feat:, fix:, docs:, refactor:, etc.) and always sign commits with:
+`Signed-off-by: GitHub Copilot <copilot@github.com>`
+
+Group related changes into separate commits for better git history and easier code review. Examples:
+- Data models and services in one commit
+- UI components updates in another
+- Documentation updates separately
+- Package dependency changes separately
 
 Follow Flutter best practices and maintain the terminal/coding aesthetic theme with responsive design for desktop and mobile.
 
