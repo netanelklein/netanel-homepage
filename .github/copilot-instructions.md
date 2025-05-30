@@ -1,5 +1,7 @@
 Always read the `.ai-context.md` file first to understand the current project state, completed features, TODO items, and project requirements.
 
+**Git Workflow**: Before working on any new feature, always create a new branch from main (or dev when available) using descriptive names like `feature/api-service-layer` or `fix/navbar-transparency`. Use the run_in_terminal tool to execute git commands like `git checkout -b feature/feature-name`.
+
 After every significant change, update the `.ai-context.md` file by moving items from TODO to completed features, updating feature descriptions, and adding implementation details.
 
 Follow Flutter best practices and maintain the terminal/coding aesthetic theme with responsive design for desktop and mobile.
