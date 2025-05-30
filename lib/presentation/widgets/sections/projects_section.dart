@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../data/repositories/portfolio_repository.dart';
 import '../../../data/services/api_service.dart';
 import '../../../data/models/project.dart';
@@ -300,7 +301,7 @@ class ProjectsSection extends StatelessWidget {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              // TODO: Launch URL
+                              _launchURL(githubLink.url);
                             },
                             icon: const Icon(Icons.code, size: 16),
                             label: const Text('Code'),
@@ -315,7 +316,7 @@ class ProjectsSection extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              // TODO: Launch URL
+                              _launchURL(demoLink.url);
                             },
                             icon: const Icon(Icons.launch, size: 16),
                             label: const Text('Demo'),
@@ -345,6 +346,23 @@ class ProjectsSection extends StatelessWidget {
         return Colors.blue;
       case ProjectStatus.archived:
         return Colors.grey;
+    }
+  }
+
+  // URL launcher helper method
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        debugPrint('Could not launch $url');
+      }
+    } catch (e) {
+      debugPrint('Error launching URL: $e');
     }
   }
 }
