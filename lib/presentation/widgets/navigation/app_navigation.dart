@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/providers/theme_provider.dart';
 
 class AppNavigation extends StatefulWidget {
@@ -226,14 +227,14 @@ class _AppNavigationState extends State<AppNavigation> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      // TODO: Open GitHub
+                      _launchURL('https://github.com/netanelklein');
                     },
                     icon: const FaIcon(FontAwesomeIcons.github),
                   ),
                   const SizedBox(width: 20),
                   IconButton(
                     onPressed: () {
-                      // TODO: Open LinkedIn
+                      _launchURL('https://linkedin.com/in/netanelklein');
                     },
                     icon: const FaIcon(FontAwesomeIcons.linkedin),
                   ),
@@ -244,6 +245,23 @@ class _AppNavigationState extends State<AppNavigation> {
         ),
       ),
     );
+  }
+
+  // URL launcher helper method
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+      } else {
+        debugPrint('Could not launch $url');
+      }
+    } catch (e) {
+      debugPrint('Error launching URL: $e');
+    }
   }
 }
 
