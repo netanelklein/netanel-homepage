@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CvSection extends StatelessWidget {
   const CvSection({super.key});
@@ -33,7 +34,7 @@ class CvSection extends StatelessWidget {
                 
                 ElevatedButton.icon(
                   onPressed: () {
-                    // TODO: Download CV
+                    _launchURL('assets/cv/netanel_klein_cv.pdf');
                   },
                   icon: const Icon(Icons.download),
                   label: const Text('Download CV'),
@@ -47,5 +48,22 @@ class CvSection extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // URL launcher helper method for CV download
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(
+          uri,
+          mode: LaunchMode.platformDefault,
+        );
+      } else {
+        debugPrint('Could not launch $url');
+      }
+    } catch (e) {
+      debugPrint('Error launching URL: $e');
+    }
   }
 }
