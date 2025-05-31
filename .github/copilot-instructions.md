@@ -1,36 +1,15 @@
-Always read the `.ai-context.md` file first to understand the current project state, completed features, TODO items, and project requirements.
+Flutter web frontend for Netanel Klein's portfolio with terminal/coding aesthetic theme and responsive design.
 
-**User Approval Required**: Before committing any changes or implementations, always ask the user if they are satisfied with the implementation and if it works correctly for them. Only proceed with git commits after receiving explicit user approval.
+Always read .ai-context.md first and update it after changes with user approval before committing.
 
-**Git Workflow**: Before working on any new feature, always create a new branch from main (or dev when available) using descriptive names like `feature/api-service-layer` or `fix/navbar-transparency`. Use the run_in_terminal tool to execute git commands like `git checkout -b feature/feature-name`.
+Create feature branches from main using descriptive names.
 
-**Meaningful Commits**: When making changes, always commit work in logical groups with meaningful commit messages. Configure git as GitHub Copilot before committing:
-```bash
-git config user.name "GitHub Copilot"
-```
-Use semantic commit messages (feat:, fix:, docs:, refactor:, etc.) and always sign commits with:
-`Signed-off-by: GitHub Copilot`
+Use withValues(alpha: x) instead of deprecated withOpacity(x) for Flutter color transparency.
 
-Group related changes into separate commits for better git history and easier code review. Examples:
-- Data models and services in one commit
-- UI components updates in another
-- Documentation updates separately
-- Package dependency changes separately
+Navbar uses dynamic transparency with glassmorphism, invisible at top, appears on scroll with smooth transitions.
 
-Follow Flutter best practices and maintain the terminal/coding aesthetic theme with responsive design for desktop and mobile.
+Currently hosted on GitHub Pages with CI/CD via GitHub Actions, planned PHP + MariaDB backend on OCI.
 
-Use withValues(alpha: x) instead of the deprecated withOpacity(x) method for color transparency in Flutter.
+Configure git as GitHub Copilot with semantic commits and Signed-off-by: GitHub Copilot.
 
-Ensure theme toggle functionality works with any new components and test changes on both dark and light themes.
-
-The navbar uses dynamic transparency and blur effects, is completely invisible at page top, appears gradually on scroll, uses glassmorphism design with gradient fade transitions, and provides smooth scroll navigation between sections.
-
-Use the fixed navbar approach - no floating navigation button.
-
-This is a Flutter Web frontend with planned PHP + MariaDB backend on OCI, currently hosted on GitHub Pages with CI/CD via GitHub Actions.
-
-When updating documentation, use completion status format: `- [x] Feature description` and include technical specifications like opacity values and transition distances.
-
-Always explain what changes were made and why, reference context file updates in responses, and maintain professional yet creative tone matching the project aesthetic.
-
-This is a personal portfolio project showcasing Netanel's skills as an Electrical Engineering student and DevOps/full-stack developer - keep implementation quality high and design cohesive with the established terminal/coding theme.
+To add more instructions: Add simple, clear statements as new lines focusing on Flutter development practices, UI/UX requirements, or frontend-specific guidelines.
