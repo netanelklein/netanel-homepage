@@ -9,18 +9,18 @@ class MockDataService {
 
     return PortfolioData(
       personalInfo: PersonalInfo(
-        fullName: 'Netanel Klein',
+        fullName: 'Alex Developer',
         title: 'Electrical Engineering Student & Fullstack Developer',
         tagline: 'Crafting solutions from circuits to cocktails',
         summary:
             'Highly motivated and results-oriented fullstack developer and student for electrical engineering with experience in web development, mobile app development, hardware integration, and database management.',
         contact: ContactInfo(
-          email: 'netanel@netanelk.com',
-          phone: '050-7883339',
-          location: 'Jerusalem, Israel',
+          email: 'contact@example-portfolio.com',
+          phone: '+1-555-0123',
+          location: 'Tech City, Country',
           socialLinks: {
-            'github': 'https://github.com/netanelklein',
-            'linkedin': 'https://linkedin.com/in/netanelklein',
+            'github': 'https://github.com/example-developer',
+            'linkedin': 'https://linkedin.com/in/example-developer',
           },
         ),
         languages: [
