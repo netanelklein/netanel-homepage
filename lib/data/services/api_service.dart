@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/portfolio_data.dart';
 import '../models/contact_message.dart';
-import 'mock_data_service.dart';
 
 enum LoadingState { idle, loading, success, error }
 
@@ -34,11 +33,6 @@ class ApiService {
 
   /// Fetch complete portfolio data
   Future<PortfolioData> getPortfolioData() async {
-    // Use mock data in debug mode
-    if (kDebugMode) {
-      return MockDataService.getPortfolioData();
-    }
-
     try {
       final response = await _client
           .get(
