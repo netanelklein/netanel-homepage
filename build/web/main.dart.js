@@ -80506,7 +80506,7 @@ var $async$uK=A.N(function(a,b){if(a===1){o.push(b)
 s=p}while(true)switch(s){case 0:p=4
 j=t.N
 s=7
-return A.U(n.a.abx("GET",A.e1("https://api.netanelk.com/portfolio",0,null),A.a6(["Content-Type","application/json","Accept","application/json"],j,j)).UF(B.mR),$async$uK)
+return A.U(n.a.abx("GET",A.e1("/api/portfolio",0,null),A.a6(["Content-Type","application/json","Accept","application/json"],j,j)).UF(B.mR),$async$uK)
 case 7:m=b
 if(m.b===200){j=m
 l=t.P.a(B.bB.eF(A.aMr(A.aKf(j.e)).eF(j.w)))
@@ -80535,7 +80535,7 @@ var $async$kd=A.N(function(b,c){if(b===1){o.push(c)
 s=p}while(true)switch(s){case 0:p=4
 k=t.N
 s=7
-return A.U(n.a.ri("POST",A.e1("https://api.netanelk.com/contact",0,null),A.a6(["Content-Type","application/json","Accept","application/json"],k,k),B.bB.jC(a.cN()),null).UF(B.mR),$async$kd)
+return A.U(n.a.ri("POST",A.e1("/api/contact",0,null),A.a6(["Content-Type","application/json","Accept","application/json"],k,k),B.bB.jC(a.cN()),null).UF(B.mR),$async$kd)
 case 7:m=c
 if(m.b===200||m.b===201){q=!0
 s=1
