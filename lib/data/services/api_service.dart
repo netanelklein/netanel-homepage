@@ -17,8 +17,7 @@ class ApiException implements Exception {
 }
 
 class ApiService {
-  static const String _baseUrl =
-      'https://api.netanelk.com'; // TODO: Replace with actual API URL
+  static const String _baseUrl = '/api'; // TODO: Replace with actual API URL
   static const Duration _timeout = Duration(seconds: 30);
 
   final http.Client _client;
