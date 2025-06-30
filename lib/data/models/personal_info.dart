@@ -43,14 +43,14 @@ class PersonalInfo {
 }
 
 class ContactInfo {
-  final String email;
+  final String? email;  // Made optional since it's removed from public API
   final String? phone;
   final String? location;
   final Map<String, String>
       socialLinks; // e.g., {'github': 'https://github.com/...'}
 
   const ContactInfo({
-    required this.email,
+    this.email,  // Made optional
     this.phone,
     this.location,
     required this.socialLinks,
@@ -58,7 +58,7 @@ class ContactInfo {
 
   factory ContactInfo.fromJson(Map<String, dynamic> json) {
     return ContactInfo(
-      email: json['email'] as String,
+      email: json['email'] as String?,  // Made optional
       phone: json['phone'] as String?,
       location: json['location'] as String?,
       socialLinks: Map<String, String>.from(json['socialLinks'] as Map),
@@ -67,7 +67,7 @@ class ContactInfo {
 
   Map<String, dynamic> toJson() {
     return {
-      'email': email,
+      'email': email,  // Can be null
       'phone': phone,
       'location': location,
       'socialLinks': socialLinks,

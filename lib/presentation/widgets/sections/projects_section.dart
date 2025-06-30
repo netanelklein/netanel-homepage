@@ -27,15 +27,16 @@ class ProjectsSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 60),
-              if (portfolioRepo.loadingState == LoadingState.loading)
+              if (portfolioRepo.loadingState == LoadingState.loading) ...[
                 _buildLoadingSkeleton(context)
-              else if (portfolioRepo.loadingState == LoadingState.error)
+              ] else if (portfolioRepo.loadingState == LoadingState.error) ...[
                 _buildErrorState(context)
-              else if (portfolioRepo.portfolioData?.projects.isEmpty ?? true)
+              ] else if (portfolioRepo.portfolioData?.projects.isEmpty ?? true) ...[
                 _buildEmptyState(context)
-              else
+              ] else ...[
                 _buildProjectsGrid(
-                    context, portfolioRepo.portfolioData!.projects),
+                    context, portfolioRepo.portfolioData!.projects)
+              ],
             ],
           ),
         );

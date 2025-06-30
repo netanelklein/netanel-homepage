@@ -49,6 +49,7 @@ class PortfolioRepository extends ChangeNotifier {
       await _saveToCache(data);
 
       _setLoadingState(LoadingState.success);
+      
     } catch (e) {
       _errorMessage = e.toString();
       _setLoadingState(LoadingState.error);
@@ -139,19 +140,18 @@ class PortfolioRepository extends ChangeNotifier {
 
       final cacheTime = DateTime.fromMillisecondsSinceEpoch(timestampMs);
       final now = DateTime.now();
+      final cacheAge = now.difference(cacheTime);
 
       // Check if cache is expired
-      if (now.difference(cacheTime) > _cacheExpiry) {
+      if (cacheAge > _cacheExpiry) {
         return null;
       }
 
       final jsonData = json.decode(cachedJson) as Map<String, dynamic>;
-      return PortfolioData.fromJson(jsonData);
+      final portfolioData = PortfolioData.fromJson(jsonData);
+      
+      return portfolioData;
     } catch (e) {
-      // If cache loading fails, return null
-      if (kDebugMode) {
-        print('Cache loading failed: $e');
-      }
       return null;
     }
   }

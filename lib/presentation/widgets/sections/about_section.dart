@@ -24,6 +24,7 @@ class AboutSection extends StatelessWidget {
             }
 
             final personalInfo = portfolioRepo.portfolioData?.personalInfo;
+            
             if (personalInfo == null) {
               return _buildErrorState(context);
             }
